@@ -1,7 +1,7 @@
 const fs = require("fs");
 const yargs = require("yargs");
 
-const { addNotes, removeNotes } = require("./notes.js");
+const { addNotes, removeNotes, listNotes, readNotes } = require("./notes.js");
 
 //Customize yargs version
 yargs.version("1.1.0");
@@ -47,8 +47,15 @@ yargs.command({
 yargs.command({
   command: "read",
   describe: "read a note",
-  handler: () => {
-    console.log("Reading a note");
+  builder: {
+    title: {
+      describe: "Note title",
+      demandOption: true,
+      type: "string",
+    },
+  },
+  handler: (argv) => {
+    readNotes(argv.title);
   },
 });
 
@@ -57,7 +64,7 @@ yargs.command({
   command: "list",
   describe: "list the notes",
   handler: () => {
-    console.log("Listing the notes");
+    listNotes();
   },
 });
 
